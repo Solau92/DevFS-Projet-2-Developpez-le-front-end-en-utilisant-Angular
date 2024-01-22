@@ -9,3 +9,25 @@ example of participation:
     athleteCount: 372
 }
 */
+
+// Classe : 
+export class Participation {
+
+    id!: number;
+    year!: number;
+    city!: string;
+    medalsCount!: number;
+    athleteCount!: number;
+
+} 
+
+// Ou interface : 
+/* export interface Participation {
+
+    id: number;
+    year: number;
+    city: string;
+    medalsCount: number;
+    athleteCount: number;
+    
+}*/
