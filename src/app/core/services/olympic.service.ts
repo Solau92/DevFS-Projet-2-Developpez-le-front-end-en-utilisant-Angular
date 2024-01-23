@@ -17,7 +17,7 @@ export class OlympicService {
   constructor(private http: HttpClient) {
   }
 
-  loadInitialData() {
+  public loadInitialData(): Observable<Olympic[]> {
     // Remplacé : 
     // return this.http.get<any>(this.olympicUrl).pipe(
     return this.http.get<Olympic[]>(this.olympicUrl).pipe(
@@ -33,7 +33,7 @@ export class OlympicService {
     );
   }
 
-  getOlympics() {
+  public getOlympics(): Observable<Olympic[]>  {
     
     return this.olympics$.asObservable();    
   
