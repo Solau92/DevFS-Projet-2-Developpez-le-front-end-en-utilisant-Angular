@@ -6,10 +6,23 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 
+// Voir : import { BrowserAnimationsModule } from '@angular/plateform-browser/animations';
+// Ajouté 
+// import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { DashboardChartComponent } from './pages/home/dashboard-chart/dashboard-chart.component';
+
+// import { FormsModule } from '@angular/forms';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { ScaleLinear, ScalePoint, ScaleTime } from 'd3-scale';
+
+// Test
+import { TestComponent } from './pages/home/test/test.component';
+
 @NgModule({
   declarations: [AppComponent, HomeComponent, NotFoundComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, DashboardChartComponent, 
+    BrowserModule, TestComponent ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

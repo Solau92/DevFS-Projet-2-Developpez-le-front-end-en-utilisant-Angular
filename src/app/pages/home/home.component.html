@@ -1,10 +1,43 @@
-<h2>Olympic games app</h2>
+<!-- <h2>Olympic games app</h2>
 <hr />
-<p>{{ (olympics$ | async)?.length }} data loaded</p>
+<p>{{ (olympics$ | async)?.length }} data loaded</p> -->
 
-<p>{{olympics$}}</p>
+<!-- <p>{{olympics$}}</p>
 <p>{{olympics$ | async}}</p>
 
 <ul>
     <li *ngFor="let olympic of olympics$ | async">{{ olympic.country }}</li>
-</ul>
+</ul> -->
+
+<head>
+
+
+</head>
+
+<body>
+
+    <header>
+        <h1 class="pageTitle">Medals per Country</h1>
+
+    </header>
+
+    <main>
+
+        <div class="stats">
+
+            <h2>
+                <p>Numbers of JOs</p>
+                <p class="data">data</p>
+            </h2>
+            <h2>
+                <p>Numbers of countries</p>
+                <p class="data">data</p>
+            </h2>
+
+        </div>
+
+        <app-dashboard-chart>
+            Dashboard Chart
+        </app-dashboard-chart>
+    </main>
+</body>
