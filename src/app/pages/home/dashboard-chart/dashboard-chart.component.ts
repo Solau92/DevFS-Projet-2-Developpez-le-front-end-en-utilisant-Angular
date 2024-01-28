@@ -21,7 +21,7 @@ export class DashboardChartComponent {
 
   // Graph options 
   // A typer !! 
-  protected view: [number, number] = [500, 500];
+  // protected view: [number, number] = [500, 500];
   protected showLegend: boolean = false;
   protected showLabels: boolean = true;
   protected legendPosition = LegendPosition.Below;
@@ -64,6 +64,10 @@ export class DashboardChartComponent {
   public setToolTipText(tooltipText: any): string {
     return "<span> <span class=\"tooltip-label\">" + tooltipText.data.name + "</span> <span class=\"tooltip-val\">" + " 🎖" + tooltipText.value + "</span></span>";
     // return tooltipText.data.name + " 🎖" + tooltipText.value;
+  }
+
+  onSelect(data: any): void {
+    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
   }
 
 
