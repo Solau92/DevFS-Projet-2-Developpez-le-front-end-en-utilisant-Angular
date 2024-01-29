@@ -28,7 +28,7 @@ export class DashboardChartComponent {
   protected legendPosition = LegendPosition.Below;
   protected maxLabelLength = 30;
 
-  // Ajout injection service : à enlever ? 
+  // Ajout injection service : à enlever si autre solution (data from home.component) ? 
   constructor(private olympicService: OlympicService, private router: Router) {
     //Object.assign(this, { this: this.dataDashboard2 });
     //Object.assign(this, { dataDashboard });
@@ -40,6 +40,7 @@ export class DashboardChartComponent {
     this.olympics$.subscribe(value => this.transformData(value));
   }
 
+  // Type de retour ? void
   public transformData(data: Olympic[]) {
     
     const dataDashboard2: any[] = [];
@@ -56,7 +57,22 @@ export class DashboardChartComponent {
     }
 
     this.dataDashboard = dataDashboard2;
-  }
+  } 
+
+  /* public transformData(data: Olympic[]) {
+
+    for(let i = 0 ; i < data.length ; i++) {
+
+      let nbOfMedals = 0;
+
+      for(let j = 0 ; j < data[i].participations.length ; j++) {
+        nbOfMedals += data[i].participations[j].medalsCount;
+      }
+      const obj =  { name: data[i].country, value: nbOfMedals};
+      this.dataDashboard.push(obj);
+    }
+
+  } */
 
   /*   public setLabelFormatting(name: string) :string {
       return ` ${name} `;
@@ -70,8 +86,8 @@ export class DashboardChartComponent {
   public onSelect(data: any): void {
     // Data :any ??
     
-    this.router.navigateByUrl(`./detail/${data.name}`);
-
+    this.router.navigateByUrl(`detail/${data.name}`);
+ 
   }
 
 }

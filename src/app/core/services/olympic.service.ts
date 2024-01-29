@@ -84,7 +84,7 @@ export class OlympicService {
           if (olympic.country === countryName) {
             // setInterval( 
             //   () => {
-                olympic.participations[0].medalsCount++; 
+            // olympic.participations[0].medalsCount++; 
                 this.olympicByName$.next(olympic)
             //   },
             //   1000

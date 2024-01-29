@@ -4,11 +4,15 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { DetailChartComponent } from './detail-chart/detail-chart.component';
+
+// Test
+import { DetailTestComponent } from './detail-test/detail-test.component';
 
 @Component({
   selector: 'app-detail',
   standalone: true,
-  imports: [],
+  imports: [DetailChartComponent, DetailTestComponent],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.scss'
 })
