@@ -10,6 +10,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 // Ajouté 
 // import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { DashboardChartComponent } from './pages/home/dashboard-chart/dashboard-chart.component';
+import { DetailComponent } from './pages/detail/detail.component';
 
 // import { FormsModule } from '@angular/forms';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,9 +20,9 @@ import { DashboardChartComponent } from './pages/home/dashboard-chart/dashboard-
 import { TestComponent } from './pages/home/test/test.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NotFoundComponent],
+  declarations: [AppComponent, HomeComponent, NotFoundComponent ], // Voir pourquoi declarations / imports (/standadlone)
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, DashboardChartComponent, 
-    BrowserModule, TestComponent ],
+    BrowserModule, TestComponent, DetailComponent ],
   providers: [],
   bootstrap: [AppComponent]
 })

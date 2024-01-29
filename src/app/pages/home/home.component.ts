@@ -14,8 +14,8 @@ export class HomeComponent implements OnInit {
   //public olympics$: Observable<any> = of(null);
   public olympics$: Observable<Olympic[]> = of([]);
 
-  public numberOfJOs :number = 0;
-  public numberOfCourtries :number = 0;
+  public numberOfJOs: number = 0;
+  public numberOfCountries: number = 0;
 
 
   constructor(private olympicService: OlympicService) { }
@@ -23,7 +23,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
 
-    this.olympics$.subscribe(value => this.numberOfCourtries = value.length);
+    this.olympics$.subscribe(value => {
+      this.numberOfCountries = value.length;
+    });
     this.olympics$.subscribe(value => this.numberOfJOs = this.calculateNumberOfJOs(value));
 
   }

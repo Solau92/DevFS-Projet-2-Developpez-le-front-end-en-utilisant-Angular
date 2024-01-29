@@ -5,6 +5,7 @@ import { LegendPosition, NgxChartsModule } from '@swimlane/ngx-charts';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-chart',
@@ -27,8 +28,8 @@ export class DashboardChartComponent {
   protected legendPosition = LegendPosition.Below;
   protected maxLabelLength = 30;
 
-  // Ajout injection service 
-  constructor(private olympicService: OlympicService) {
+  // Ajout injection service : à enlever ? 
+  constructor(private olympicService: OlympicService, private router: Router) {
     //Object.assign(this, { this: this.dataDashboard2 });
     //Object.assign(this, { dataDashboard });
   }
@@ -66,11 +67,12 @@ export class DashboardChartComponent {
     // return tooltipText.data.name + " 🎖" + tooltipText.value;
   }
 
-  onSelect(data: any): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+  public onSelect(data: any): void {
+    // Data :any ??
+    
+    this.router.navigateByUrl(`./detail/${data.name}`);
+
   }
-
-
 
 }
 
