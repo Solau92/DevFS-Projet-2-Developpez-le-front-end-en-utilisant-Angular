@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
+/**
+ * DetailChart component, linked to DetailComponent
+ */
 @Component({
   selector: 'app-detail-chart',
   standalone: true,
@@ -14,51 +17,30 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 })
 export class DetailChartComponent {
 
-  // Data en dur pour commencer 
-  single: any[] = [
-    {
-      "name": "1980",
-      "value": 10
-    },
-    {
-      "name": "1984",
-      "value": 20
-    },
-    {
-      "name": "1988",
-      "value": 30
-    }
-  ];
-
   // Data
-  public dataDetailChart! :any[]; // any ?
+  public dataDetailChart!: any[]; // TODO: any ?
   public olympic$!: Observable<Olympic>;
-  
   public countryName!: string;
 
-  // Graph options 
-  // A typer !! 
-  view: [number, number] = [700, 400];
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = false;
-  showXAxisLabel = true;
-  xAxisLabel = 'Dates';
-  showYAxisLabel = true;
-  yAxisLabel = 'Nb of medals';
-  barPadding = 40;
+  // Graph options  
+  public view: [number, number] = [700, 400];
+  public showXAxis = true;
+  public showYAxis = true;
+  public gradient = false;
+  public showLegend = false;
+  public showXAxisLabel = true;
+  public xAxisLabel = "Dates";
+  public showYAxisLabel = true;
+  public yAxisLabel = "Nb of medals";
+  public barPadding = 40;
 
-  // colorScheme = {
-  //   domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  // };
-
-  constructor(private olympicService :OlympicService, private route: ActivatedRoute) {
-    // Object.assign(this, { this : this.single })
+  constructor(private olympicService: OlympicService, private route: ActivatedRoute) {
   }
 
-  // Initialisation variables
-  ngOnInit(): void {
+  /**
+   * Gets data needed for the graph
+   */
+  public ngOnInit(): void {
 
     this.countryName = this.route.snapshot.params['country'];
     console.log(this.countryName);
@@ -66,22 +48,25 @@ export class DetailChartComponent {
     this.olympic$ = this.olympicService.getOlympicByCountryName(this.countryName);
 
     this.olympic$.subscribe(value => this.transformData(value));
-
   }
 
+  /**
+   * Transforms data in a format that can be used by the graph
+   * @param data: Olympic 
+   */
   public transformData(data: Olympic) {
 
-    // Revoir + any
-    const dataDetailChartTemp :any[] = [];
+    // TODO: any ??
+    const dataDetailChartTemp: any[] = [];
 
-    for(let i = 0 ; i < data.participations.length ; i++) {
+    for (let i = 0; i < data.participations.length; i++) {
 
       let nbOfMedals = 0;
 
-      const obj = { name: data.participations[i].year, value :data.participations[i].medalsCount };
+      const obj = { name: data.participations[i].year, value: data.participations[i].medalsCount };
       dataDetailChartTemp.push(obj);
 
     }
-    this.dataDetailChart = dataDetailChartTemp; 
+    this.dataDetailChart = dataDetailChartTemp;
   }
 }

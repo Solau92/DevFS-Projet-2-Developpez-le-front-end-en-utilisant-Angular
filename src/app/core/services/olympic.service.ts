@@ -1,28 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject, Observable} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
-import { Participation } from '../models/Participation';
 
+/**
+ * Contains methods to get data
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class OlympicService {
+
   private olympicUrl = './assets/mock/olympic.json';
-
-  // Remplacé : 
-  //private olympics$ = new BehaviorSubject<any>(undefined);
   private olympics$ = new BehaviorSubject<Olympic[]>([])
-
   private olympicByName$ = new BehaviorSubject<Olympic>(new Olympic())
 
   constructor(private http: HttpClient) {
   }
 
+  /**
+   * Loads initial data from data source
+   * @returns Observable<Olympic[]>
+   * @error TODO: 
+   */
   public loadInitialData(): Observable<Olympic[]> {
-    // Remplacé : 
-    // return this.http.get<any>(this.olympicUrl).pipe(
+
     return this.http.get<Olympic[]>(this.olympicUrl).pipe(
       tap((value) => this.olympics$.next(value)),
       catchError((error, caught) => {
@@ -36,67 +39,36 @@ export class OlympicService {
     );
   }
 
+  /**
+   * Returns the data as Observable
+   * @returns Observable<Olympic[]>
+   * @error TODO:
+   */
   public getOlympics(): Observable<Olympic[]> {
+
+    // TODO: gérer erreurs ?
     return this.olympics$.asObservable();
+
   }
 
-  /* public getCountriesAndMedalls(): Olympic[]  {
-  
-      console.log("InGetCountriesAndMedalls");
-  
-      const countries: Olympic[]=[];
-      this.olympics$.subscribe(value => countries.concat(value));
-      // this.olympics$.subscribe(value => console.log(value));
-  
-      console.log("After subscribe, countries : ");
-      console.log(countries);
-  
-      return countries; */
-
+  /**
+   * Returns the Olympic as Observable, given the countryName
+   * @param countryName: string
+   * @returns Observable<Olympic>
+   * @error TODO:
+   */
   public getOlympicByCountryName(countryName: string): Observable<Olympic> {
 
-    /* let olympicForTest: Olympic = new Olympic();
-
-    let participations: Participation[] = [];
-
-    let participation1: Participation = new Participation();
-    participation1.city = "PaysJO1";
-    participation1.athleteCount = 100;
-    participation1.medalsCount = 10;
-
-    let participation2: Participation = new Participation();
-    participation2.city = "PaysJO2";
-    participation2.athleteCount = 200;
-    participation2.medalsCount = 20;
-
-    participations.push(participation1);
-    participations.push(participation2);
-
-    olympicForTest.country = "PaysTest";
-    olympicForTest.id = 6;
-    olympicForTest.participations = participations;
-
-    console.log("olympicForTest$");
- */
+    // TODO: gérer erreurs ?
     this.olympics$.subscribe(
       olympics => {
         for (let olympic of olympics) {
           if (olympic.country === countryName) {
-            // setInterval( 
-            //   () => {
-            // olympic.participations[0].medalsCount++; 
-                this.olympicByName$.next(olympic)
-            //   },
-            //   1000
-            // )
+            this.olympicByName$.next(olympic)
           }
         }
       }
     )
-
     return this.olympicByName$.asObservable();
-
   }
 }
-
-

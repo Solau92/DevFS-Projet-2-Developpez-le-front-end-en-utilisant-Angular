@@ -1,16 +1,7 @@
-// TODO: create here a typescript interface for a participation
-/*
-example of participation:
-{
-    id: 1,
-    year: 2012,
-    city: "Londres",
-    medalsCount: 28,
-    athleteCount: 372
-}
-*/
 
-// Classe : 
+/**
+ * Represents a participation to an Olympic game
+ */
 export class Participation {
 
     id!: number;
@@ -20,14 +11,3 @@ export class Participation {
     athleteCount!: number;
 
 } 
-
-// Ou interface : 
-/* export interface Participation {
-
-    id: number;
-    year: number;
-    city: string;
-    medalsCount: number;
-    athleteCount: number;
-    
-}*/

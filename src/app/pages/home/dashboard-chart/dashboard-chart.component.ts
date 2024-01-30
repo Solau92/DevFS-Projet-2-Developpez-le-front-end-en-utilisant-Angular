@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-// Ajouté
 import { LegendPosition, NgxChartsModule } from '@swimlane/ngx-charts';
-//import { dataDashboard } from './dataDashboard';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Olympic } from 'src/app/core/models/Olympic';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
+/**
+ * DashboardChartComponent, linked to HomePageComponent
+ */
 @Component({
   selector: 'app-dashboard-chart',
   standalone: true,
@@ -17,33 +18,35 @@ import { Router } from '@angular/router';
 export class DashboardChartComponent {
 
   // Data 
-  public dataDashboard!: any[]; // any ?
+  public dataDashboard!: any[]; // TODO: any ?
   public olympics$!: Observable<Olympic[]>;
 
   // Graph options 
-  // A typer !! 
-  // protected view: [number, number] = [500, 500];
-  protected showLegend: boolean = false;
-  protected showLabels: boolean = true;
-  protected legendPosition = LegendPosition.Below;
-  protected maxLabelLength = 30;
+  public showLegend: boolean = false;
+  public showLabels: boolean = true;
+  public legendPosition = LegendPosition.Below;
+  public maxLabelLength = 30;
 
-  // Ajout injection service : à enlever si autre solution (data from home.component) ? 
   constructor(private olympicService: OlympicService, private router: Router) {
-    //Object.assign(this, { this: this.dataDashboard2 });
-    //Object.assign(this, { dataDashboard });
   }
 
-  // Initialisation variable 
-  ngOnInit(): void {
+  /**
+   * Gets data needed for the graph
+   */
+  public ngOnInit(): void {
+
     this.olympics$ = this.olympicService.getOlympics();
     this.olympics$.subscribe(value => this.transformData(value));
+
   }
 
-  // Type de retour ? void
-  // Marche
-   public transformData(data: Olympic[]) {
+  /**
+   * Transforms data in a format that can be used by the graph
+   * @param data: Olympic[] 
+   */ 
+  public transformData(data: Olympic[]) {
     
+    // TODO: any ??
     const dataDashboardTemp: any[] = [];
 
     for(let i = 0 ; i < data.length ; i++) {
@@ -56,36 +59,28 @@ export class DashboardChartComponent {
       const obj = { name: data[i].country, value: nbOfMedals};
       dataDashboardTemp.push(obj);
     }
-
     this.dataDashboard = dataDashboardTemp;
   } 
 
-  // Marche pas (graphique s'affiche pas)
-/*  public transformData(data: Olympic[]) {
+  /**
+   * Sets the tooltipText by returning an html tag corresponding to the tooltip text
+   * @param tooltipText: any 
+   * @returns string
+   */
 
-    for(let i = 0 ; i < data.length ; i++) {
-
-      let nbOfMedals = 0;
-
-      for(let j = 0 ; j < data[i].participations.length ; j++) {
-        nbOfMedals += data[i].participations[j].medalsCount;
-      }
-      const obj =  { name: data[i].country, value: nbOfMedals};
-      this.dataDashboard.push(obj);
-    }
-  }  */
-
-  /*   public setLabelFormatting(name: string) :string {
-      return ` ${name} `;
-    } */
-
+  //TODO : voir any
   public setToolTipText(tooltipText: any): string {
+
     return "<span> <span class=\"tooltip-label\">" + tooltipText.data.name + "</span> <span class=\"tooltip-val\">" + " 🎖" + tooltipText.value + "</span></span>";
-    // return tooltipText.data.name + " 🎖" + tooltipText.value;
+    
   }
 
+  /**
+   * Defines the action onSelect of the graph
+   */
+
+  //TODO : voir any
   public onSelect(data: any): void {
-    // Data :any ??
     
     this.router.navigateByUrl(`detail/${data.name}`);
  

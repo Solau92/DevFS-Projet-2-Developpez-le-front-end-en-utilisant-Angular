@@ -3,6 +3,9 @@ import { Observable, of } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
+/**
+ * HomeComponent, corresponding to home page of the app
+ */
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -10,17 +13,20 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 })
 export class HomeComponent implements OnInit {
 
-  // Remplacé :
-  //public olympics$: Observable<any> = of(null);
+  // Data
   public olympics$: Observable<Olympic[]> = of([]);
 
   public numberOfJOs: number = 0;
   public numberOfCountries: number = 0;
 
+  constructor(private olympicService: OlympicService) {
+  }
 
-  constructor(private olympicService: OlympicService) { }
+  /**
+   * Gets data that must be displayed on the page
+   */
+  public ngOnInit(): void {
 
-  ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
 
     this.olympics$.subscribe(value => {
@@ -30,7 +36,12 @@ export class HomeComponent implements OnInit {
 
   }
 
-  public calculateNumberOfJOs(value: Olympic[]) :number {
+  /**
+   * Calculates and returns the number of JOs, given an Olympic[]
+   * @param value: Olympic[] 
+   * @returns number
+   */
+  public calculateNumberOfJOs(value: Olympic[]): number {
 
     let jos = new Set<string>();
 
