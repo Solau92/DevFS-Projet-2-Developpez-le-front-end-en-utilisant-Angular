@@ -2,9 +2,10 @@
 <hr />
 <p>{{ (olympics$ | async)?.length }} data loaded</p> -->
 
-<!-- <p>{{olympics$}}</p>
+<p>{{olympics$}}</p>
 <p>{{olympics$ | async}}</p>
 
+<!-- Tests  -->
 <ul>
     <li *ngFor="let olympic of olympics$ | async">{{ olympic.country }}</li>
 </ul> -->

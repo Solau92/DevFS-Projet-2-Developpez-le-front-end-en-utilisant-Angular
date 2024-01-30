@@ -12,13 +12,11 @@ example of participation:
 
 // Classe : 
 export class Participation {
-
     id!: number;
     year!: number;
     city!: string;
     medalsCount!: number;
     athleteCount!: number;
-
 } 
 
 // Ou interface : 
@@ -30,4 +28,4 @@ export class Participation {
     medalsCount: number;
     athleteCount: number;
     
-}*/
+} */    
