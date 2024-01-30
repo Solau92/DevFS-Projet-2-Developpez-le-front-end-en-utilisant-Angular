@@ -12,7 +12,7 @@ export class OlympicService {
 
   // Remplacé : 
   //private olympics$ = new BehaviorSubject<any>(undefined);
-  private olympics$ = new BehaviorSubject<Olympic[]>([])
+  private olympics$ = new Subject<Olympic[]>()
 
   constructor(private http: HttpClient) {
   }
@@ -33,9 +33,23 @@ export class OlympicService {
     );
   }
 
-  public getOlympics(): Observable<Olympic[]>  {
-    
-    return this.olympics$.asObservable();    
-  
+
+  public getOlympics(): Observable<Olympic[]> {
+    return this.olympics$.asObservable();
   }
-}
+
+/* public getCountriesAndMedalls(): Olympic[]  {
+
+    console.log("InGetCountriesAndMedalls");
+
+    const countries: Olympic[]=[];
+    this.olympics$.subscribe(value => countries.concat(value));
+    // this.olympics$.subscribe(value => console.log(value));
+
+    console.log("After subscribe, countries : ");
+    console.log(countries);
+
+    return countries; */
+  }
+
+

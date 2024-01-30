@@ -1,1 +1,96 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    font-family: "Verdana";
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;    
+}
+
+.stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.graph {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+h1 {
+    font-weight: normal;
+    color:white;
+    text-align: center;
+    border-style: solid;
+    border-color: rgb(4 131 143); 
+    border-radius: 10px;
+    border-width: 20px;
+    background-color: rgb(4 131 143);
+}
+
+h2 {
+    font-weight: normal;
+    color: grey;
+    text-align: center;
+    border-style: solid;
+    border-color: rgb(4 131 143);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+}
+
+h2 p {
+    margin: 0px;
+}
+
+h2 > .data {
+    color: black;
+    font-weight: bold;
+}
+
+.pie-label {
+    font-size: 20px !important;
+}
+
+.ngx-charts-tooltip-content {
+    padding:10px !important;
+    font-size: large !important;
+  }
+
+.ngx-charts-tooltip-content.type-tooltip {
+    font-family: "Verdana" !important;
+    background:rgb(4 131 143) !important;
+  }
+
+  .ngx-charts-tooltip-content.type-tooltip .tooltip-caret.position-left {
+    border-top:7px solid transparent;
+    border-bottom:7px solid transparent;
+    border-left:7px solid rgb(4 131 143) !important
+  }
+  .ngx-charts-tooltip-content.type-tooltip .tooltip-caret.position-top {
+    border-left:7px solid transparent;
+    border-right:7px solid transparent;
+    border-top:7px solid rgb(4 131 143) !important
+  }
+  .ngx-charts-tooltip-content.type-tooltip .tooltip-caret.position-right {
+    border-top:7px solid transparent;
+    border-bottom:7px solid transparent;
+    border-right:7px solid rgb(4 131 143) !important
+  }
+  .ngx-charts-tooltip-content.type-tooltip .tooltip-caret.position-bottom {
+    border-left:7px solid transparent;
+    border-right:7px solid transparent;
+    border-bottom:7px solid rgb(4 131 143) !important
+  }
+
+  .tooltip-label {
+    font-size: large !important;
+  }
+
+  .tooltip-val {
+    font-size: large !important;
+  }
