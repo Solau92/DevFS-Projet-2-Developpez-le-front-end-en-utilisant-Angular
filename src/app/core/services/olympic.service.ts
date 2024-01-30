@@ -33,8 +33,8 @@ export class OlympicService {
     );
   }
 
-  public getOlympics(): Observable<Olympic[]> {
 
+  public getOlympics(): Observable<Olympic[]> {
     return this.olympics$.asObservable();
   }
 
