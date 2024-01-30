@@ -1,0 +1,40 @@
+<head>
+
+</head>
+
+<body>
+
+    <nav>
+        <button (click)="onClick()">Back to main page</button>
+    </nav>
+
+    <header>
+        <h1 class="pageTitle"> {{ countryName }}</h1>
+    </header>
+
+    <main>
+
+        <div class="stats">
+
+            <h2>
+                <p>Numbers of entries</p>
+                <p class="data"> {{ numberOfEntries }}</p>
+            </h2>
+            <h2>
+                <p>Total number medals</p>
+                <p class="data"> {{ totalNumberOfMedals }}</p>
+            </h2>
+            <h2>
+                <p>Total number of athletes</p>
+                <p class="data"> {{ totalNumberOfAthletes}} </p>
+            </h2>
+        </div>
+
+        <div class="graph">
+            <app-detail-chart>
+
+            </app-detail-chart>
+        </div>
+
+    </main>
+</body>

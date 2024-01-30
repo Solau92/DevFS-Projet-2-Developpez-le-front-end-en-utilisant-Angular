@@ -45,3 +45,9 @@ src/app/pages/home/test/test.component.scss
 src/app/pages/home/test/test.component.spec.ts
 src/app/pages/home/test/test.component.ts
 src/app/pages/home/test/data.ts
+src/app/pages/detail/detail-test/data.ts
+src/app/pages/detail/detail-test/data2.ts
+src/app/pages/detail/detail-test/detail-test.component.html
+src/app/pages/detail/detail-test/detail-test.component.scss
+src/app/pages/detail/detail-test/detail-test.component.spec.ts
+src/app/pages/detail/detail-test/detail-test.component.ts
