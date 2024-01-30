@@ -41,9 +41,10 @@ export class DashboardChartComponent {
   }
 
   // Type de retour ? void
-  public transformData(data: Olympic[]) {
+  // Marche
+   public transformData(data: Olympic[]) {
     
-    const dataDashboard2: any[] = [];
+    const dataDashboardTemp: any[] = [];
 
     for(let i = 0 ; i < data.length ; i++) {
 
@@ -52,14 +53,15 @@ export class DashboardChartComponent {
       for(let j = 0 ; j < data[i].participations.length ; j++) {
         nbOfMedals += data[i].participations[j].medalsCount;
       }
-      const obj =  { name: data[i].country, value: nbOfMedals};
-      dataDashboard2.push(obj);
+      const obj = { name: data[i].country, value: nbOfMedals};
+      dataDashboardTemp.push(obj);
     }
 
-    this.dataDashboard = dataDashboard2;
+    this.dataDashboard = dataDashboardTemp;
   } 
 
-  /* public transformData(data: Olympic[]) {
+  // Marche pas (graphique s'affiche pas)
+/*  public transformData(data: Olympic[]) {
 
     for(let i = 0 ; i < data.length ; i++) {
 
@@ -71,8 +73,7 @@ export class DashboardChartComponent {
       const obj =  { name: data[i].country, value: nbOfMedals};
       this.dataDashboard.push(obj);
     }
-
-  } */
+  }  */
 
   /*   public setLabelFormatting(name: string) :string {
       return ` ${name} `;

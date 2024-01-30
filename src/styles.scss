@@ -14,12 +14,20 @@ nav {
   justify-content: flex-end;
 }
 
-nav button {
+button {
   border-color: rgb(4 131 143);
   border-radius: 5px;
   border-width: 5px;
   background-color: rgb(4 131 143);
   color: white;
+}
+
+a {
+  border-color: rgb(4 131 143);
+  border-radius: 5px;
+  background-color: rgb(4 131 143);
+  color: white;
+  padding: 15px;
 }
 
 .stats {
@@ -33,6 +41,8 @@ nav button {
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: 100%;
+  justify-content: center;
 }
 
 

@@ -47,6 +47,7 @@ export class DetailChartComponent {
   xAxisLabel = 'Dates';
   showYAxisLabel = true;
   yAxisLabel = 'Nb of medals';
+  barPadding = 40;
 
   // colorScheme = {
   //   domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
@@ -76,9 +77,6 @@ export class DetailChartComponent {
     for(let i = 0 ; i < data.participations.length ; i++) {
 
       let nbOfMedals = 0;
-
-      console.log(data.participations[i].year);
-      console.log(data.participations[i].medalsCount);
 
       const obj = { name: data.participations[i].year, value :data.participations[i].medalsCount };
       dataDetailChartTemp.push(obj);
