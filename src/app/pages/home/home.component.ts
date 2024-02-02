@@ -31,8 +31,8 @@ export class HomeComponent implements OnInit {
 
     this.olympics$.subscribe(value => {
       this.numberOfCountries = value.length;
+      this.numberOfJOs = this.calculateNumberOfJOs(value);
     });
-    this.olympics$.subscribe(value => this.numberOfJOs = this.calculateNumberOfJOs(value));
 
   }
 
@@ -43,14 +43,49 @@ export class HomeComponent implements OnInit {
    */
   public calculateNumberOfJOs(value: Olympic[]): number {
 
-    let jos = new Set<string>();
+    // TODO: suite mentorat 
 
-    for (let i = 0 ; i < value.length ; i++) {
-      for(let j = 0 ; j < value[i].participations.length ; j++) {
-        jos.add(value[i].participations[j].city);
-      }
-    }
-    return jos.size;
+    //////// Version initiale ////////
+
+    /*     let jos = new Set<string>();
+    
+        for (let i = 0; i < value.length; i++) {
+          for (let j = 0; j < value[i].participations.length; j++) {
+            jos.add(value[i].participations[j].city);
+          }
+        }
+        return jos.size; */
+
+    //////// Version intermédiaire ////////
+
+    /*   let tab: string[] = [];
+    
+        value.forEach((olympic) => 
+          olympic.participations.forEach((participation) => {
+            tab.push(participation.city);
+          }))
+    
+        return new Set(tab).size;
+      } */
+
+    //////// Version map ////////
+
+    // renvoie un tab[][]
+    /* let tab = value.map((olympic) => olympic.participations.map((participation) => participation.city));
+    console.log(tab); */
+
+    let tab: string[] = [];
+
+    value.map((olympic) => 
+      olympic.participations.map(
+        (participation) => 
+        tab.push(participation.city)));
+
+    return new Set(tab).size;
+
+    // dans ce cas pourquoi pas un set direct ? 
+
   }
 
 }
+

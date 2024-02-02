@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Observable } from 'rxjs';
@@ -15,10 +15,10 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
   templateUrl: './detail-chart.component.html',
   styleUrl: './detail-chart.component.scss'
 })
-export class DetailChartComponent {
+export class DetailChartComponent implements OnInit {
 
   // Data
-  public dataDetailChart!: any[]; // TODO: any ?
+  public dataDetailChart!: {name: number; value: number;}[];
   public olympic$!: Observable<Olympic>;
   public countryName!: string;
 
@@ -56,8 +56,7 @@ export class DetailChartComponent {
    */
   public transformData(data: Olympic) {
 
-    // TODO: any ??
-    const dataDetailChartTemp: any[] = [];
+    const dataDetailChartTemp: {name: number; value: number;}[] = [];
 
     for (let i = 0; i < data.participations.length; i++) {
 
@@ -67,6 +66,8 @@ export class DetailChartComponent {
       dataDetailChartTemp.push(obj);
 
     }
+
+    console.log(dataDetailChartTemp);
     this.dataDetailChart = dataDetailChartTemp;
   }
 }

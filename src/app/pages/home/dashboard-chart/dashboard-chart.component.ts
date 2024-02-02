@@ -5,6 +5,11 @@ import { Olympic } from 'src/app/core/models/Olympic';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
+export class Toto {
+  public name!: string;
+  public value!: number;
+
+}
 /**
  * DashboardChartComponent, linked to HomePageComponent
  */
@@ -18,7 +23,7 @@ import { Router } from '@angular/router';
 export class DashboardChartComponent {
 
   // Data 
-  public dataDashboard!: any[]; // TODO: any ?
+  public dataDashboard: {name: string; value: number;}[] = [];
   public olympics$!: Observable<Olympic[]>;
 
   // Graph options 
@@ -44,10 +49,12 @@ export class DashboardChartComponent {
    * Transforms data in a format that can be used by the graph
    * @param data: Olympic[] 
    */ 
-  public transformData(data: Olympic[]) {
+  public transformData(data: Olympic[]): void {
     
-    // TODO: any ??
-    const dataDashboardTemp: any[] = [];
+    const dataDashboardTemp: {
+      name: string;
+      value: number;
+    }[] = [];
 
     for(let i = 0 ; i < data.length ; i++) {
 
@@ -64,12 +71,14 @@ export class DashboardChartComponent {
 
   /**
    * Sets the tooltipText by returning an html tag corresponding to the tooltip text
-   * @param tooltipText: any 
+   * @param tooltipText: any TODO: voir 
    * @returns string
    */
 
-  //TODO : voir any
+  //TODO : objet complexe --> enlever any quand même ??
   public setToolTipText(tooltipText: any): string {
+
+    // console.log(tooltipText);
 
     return "<span> <span class=\"tooltip-label\">" + tooltipText.data.name + "</span> <span class=\"tooltip-val\">" + " 🎖" + tooltipText.value + "</span></span>";
     
@@ -79,8 +88,10 @@ export class DashboardChartComponent {
    * Defines the action onSelect of the graph
    */
 
-  //TODO : voir any
-  public onSelect(data: any): void {
+  //TODO : vérifier que suppression de any est ok
+  public onSelect(data: {name: string; value: number; label: string}): void {
+
+    // console.log(data);
     
     this.router.navigateByUrl(`detail/${data.name}`);
  

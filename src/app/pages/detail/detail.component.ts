@@ -39,9 +39,11 @@ export class DetailComponent {
 
     this.countryDetails$ = this.olympicService.getOlympicByCountryName(this.countryName);
 
-    this.countryDetails$.subscribe(value => this.numberOfEntries = this.calculateNumberOfEntries(value));
-    this.countryDetails$.subscribe(value => this.totalNumberOfMedals = this.calculateTotalNumberOfMedals(value));
-    this.countryDetails$.subscribe(value => this.totalNumberOfAthletes = this.calculateTotalNumberOfAthletes(value));
+    this.countryDetails$.subscribe(value => {
+      this.numberOfEntries = this.calculateNumberOfEntries(value);
+      this.totalNumberOfMedals = this.calculateTotalNumberOfMedals(value);
+      this.totalNumberOfAthletes = this.calculateTotalNumberOfAthletes(value);
+    });
 
   }
 
