@@ -15,12 +15,10 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
   templateUrl: './detail-chart.component.html',
   styleUrl: './detail-chart.component.scss'
 })
-export class DetailChartComponent implements OnInit, OnDestroy {
+export class DetailChartComponent implements OnInit {
 
   // Data
-  public dataDetailChart!: {name: number; value: number;}[];
- public olympic$!: Observable<Olympic>;
-  public countryName!: string;
+  @Input() public dataDetailChart!: { name: number; value: number; }[];
 
   //////// Ajout pour unsubscribe
   public subscription!: Subscription;
@@ -37,7 +35,7 @@ export class DetailChartComponent implements OnInit, OnDestroy {
   public yAxisLabel = "Nb of medals";
   public barPadding = 40;
 
-  constructor(private olympicService: OlympicService, private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute) {
   }
 
   /**
@@ -45,33 +43,6 @@ export class DetailChartComponent implements OnInit, OnDestroy {
    */
   public ngOnInit(): void {
 
-    this.countryName = this.route.snapshot.params['country'];
-
-    this.olympic$ = this.olympicService.getOlympicByCountryName(this.countryName);
-
-    this.subscription = this.olympic$.subscribe(value => this.transformData(value));
-  }
-
-  /**
-   * Transforms data in a format that can be used by the graph
-   * @param data: Olympic 
-   */
-  public transformData(data: Olympic) {
-
-    let dataDetailChartTemp: {
-      name: number;
-      value: number;
-    }[] = [];
-
-    data.participations.map(participation => {
-      dataDetailChartTemp.push({ name: participation.year, value: participation.medalsCount });
-    });
-
-    this.dataDetailChart = dataDetailChartTemp;
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
 }

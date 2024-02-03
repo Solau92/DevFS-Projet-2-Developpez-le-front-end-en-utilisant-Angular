@@ -19,6 +19,7 @@ import { DetailChartComponent } from './detail-chart/detail-chart.component';
 export class DetailComponent implements OnInit, OnDestroy {
 
   public countryDetails$!: Observable<Olympic>;
+  public results!: { name: number; value: number; }[];
 
   //////// Ajout pour unsubscribe
   public subscription!: Subscription;
@@ -46,6 +47,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.numberOfEntries = this.calculateNumberOfEntries(value);
       this.totalNumberOfMedals = this.calculateTotalNumberOfMedals(value);
       this.totalNumberOfAthletes = this.calculateTotalNumberOfAthletes(value);
+      this.results = this.transformData(value);
     });
 
   }
@@ -116,6 +118,23 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('');
 
   }
+
+
+  public transformData(data: Olympic): { name: number; value: number; }[] {
+
+    let dataDetailChartTemp: {
+      name: number;
+      value: number;
+    }[] = [];
+
+    data.participations.map(participation => {
+      dataDetailChartTemp.push({ name: participation.year, value: participation.medalsCount });
+    });
+
+    return dataDetailChartTemp;
+  }
+  
+
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
