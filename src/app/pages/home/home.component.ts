@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Data
   public olympics$: Observable<Olympic[]> = of([]);
+  public results!: { name: string; value: number; }[];
 
   //////// Ajout pour unsubscribe
   public subscription!: Subscription;
@@ -38,6 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscription = this.olympics$.subscribe(value => {
       this.numberOfCountries = value.length;
       this.numberOfJOs = this.calculateNumberOfJOs(value);
+      this.results = this.transformData(value);
     });
 
   }
@@ -84,6 +86,27 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     return new Set(jos).size;
 
+  }
+
+  /**
+  * Transforms data in a format that can be used by the graph
+  * @param data: Olympic[] 
+  */
+  public transformData(data: Olympic[]): { name: string; value: number; }[] {
+
+    let dataDashboard: {
+      name: string;
+      value: number;
+    }[] = [];
+
+    data.map(olympic => {
+      let nbOfMedals = (olympic.participations)
+        .map(participation => participation.medalsCount)
+        .reduce((acc, medalsCount) => acc + medalsCount);
+      dataDashboard.push({ name: olympic.country, value: nbOfMedals });
+    })
+
+    return dataDashboard;
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Observable, Subscription } from 'rxjs';
@@ -19,7 +19,7 @@ export class DetailChartComponent implements OnInit, OnDestroy {
 
   // Data
   public dataDetailChart!: {name: number; value: number;}[];
-  public olympic$!: Observable<Olympic>;
+ public olympic$!: Observable<Olympic>;
   public countryName!: string;
 
   //////// Ajout pour unsubscribe
@@ -58,16 +58,14 @@ export class DetailChartComponent implements OnInit, OnDestroy {
    */
   public transformData(data: Olympic) {
 
-    const dataDetailChartTemp: {name: number; value: number;}[] = [];
+    let dataDetailChartTemp: {
+      name: number;
+      value: number;
+    }[] = [];
 
-    for (let i = 0; i < data.participations.length; i++) {
-
-      let nbOfMedals = 0;
-
-      const obj = { name: data.participations[i].year, value: data.participations[i].medalsCount };
-      dataDetailChartTemp.push(obj);
-
-    }
+    data.participations.map(participation => {
+      dataDetailChartTemp.push({ name: participation.year, value: participation.medalsCount });
+    });
 
     this.dataDetailChart = dataDetailChartTemp;
   }
