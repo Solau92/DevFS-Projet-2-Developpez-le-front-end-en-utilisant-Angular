@@ -18,22 +18,41 @@
 
             <h2>
                 <p>Numbers of entries</p>
+
+                @if(isLoading) {
+                <div class="smallLoader"></div>
+                } @else {
                 <p class="data"> {{ numberOfEntries }}</p>
+                }
             </h2>
+
             <h2>
                 <p>Total number medals</p>
+                @if(isLoading) {
+                <div class="smallLoader"></div>
+                } @else {
                 <p class="data"> {{ totalNumberOfMedals }}</p>
+                }
             </h2>
+
             <h2>
                 <p>Total number of athletes</p>
+                @if(isLoading) {
+                <div class="smallLoader"></div>
+                } @else {
                 <p class="data"> {{ totalNumberOfAthletes}} </p>
+                }
             </h2>
-            
+
         </div>
 
         <div class="graph">
+            @if(isLoading) {
+                <div class="loader"></div>
+            } @else {
             <app-detail-chart [dataDetailChart]="results">
             </app-detail-chart>
+            }
         </div>
 
     </main>

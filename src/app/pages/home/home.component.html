@@ -6,7 +6,6 @@
 
     <header>
         <h1 class="pageTitle">Medals per Country</h1>
-
     </header>
 
     <main>
@@ -15,19 +14,33 @@
 
             <h2>
                 <p>Numbers of JOs</p>
+                @if(isLoading) {
+                <div class="smallLoader"></div>
+                } @else {
                 <p class="data">{{ numberOfJOs }}</p>
+                }
             </h2>
+
             <h2>
                 <p>Numbers of countries</p>
-                <p class="data"> {{ numberOfCountries}}</p>
+                @if(isLoading) {
+                <div class="smallLoader"></div>
+                } @else {
+                <p class="data">{{ numberOfCountries }}</p>
+                }
             </h2>
 
         </div>
 
         <div class="graph">
+
+            @if(isLoading) {
+            <div class="loader"></div>
+            } @else {
             <app-dashboard-chart [dataDashboard]="results">
-                
             </app-dashboard-chart>
+            }
+
         </div>
 
     </main>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
@@ -10,23 +10,31 @@ import { DashboardChartComponent } from './dashboard-chart/dashboard-chart.compo
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [DashboardChartComponent],
+  imports: [DashboardChartComponent ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   // Data
   public olympics$: Observable<Olympic[]> = of([]);
-  public results!: { name: string; value: number; }[];
+  public results: { name: string; value: number; }[] = [];
 
   //////// Ajout pour unsubscribe
   public subscription!: Subscription;
 
-  public numberOfJOs: number = 0;
-  public numberOfCountries: number = 0;
+  public numberOfJOs: number = -1;
+  public numberOfCountries: number = -1;
+
+  public isLoading: boolean = true;
 
   constructor(private olympicService: OlympicService) {
+  }
+
+  public ngAfterViewChecked(): void {
+    if(this.results.length > 0) {
+      this.isLoading = false;
+    }
   }
 
   /**
@@ -40,6 +48,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.numberOfCountries = value.length;
       this.numberOfJOs = this.calculateNumberOfJOs(value);
       this.results = this.transformData(value);
+      
     });
 
   }

@@ -10,8 +10,6 @@ import { DetailComponent } from './pages/detail/detail.component';
 import { DetailChartComponent } from './pages/detail/detail-chart/detail-chart.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-// TOOD : Voir pourquoi declarations / imports (/standadlone)
-
 /**
  * Root module of the app
  */

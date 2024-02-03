@@ -27,11 +27,19 @@ export class DetailComponent implements OnInit, OnDestroy {
   // Data
   public countryName!: string;
 
-  public numberOfEntries: number = 0;
-  public totalNumberOfMedals: number = 0;
-  public totalNumberOfAthletes: number = 0;
+  public numberOfEntries: number = -1;
+  public totalNumberOfMedals: number = -1;
+  public totalNumberOfAthletes: number = -1;
+
+  public isLoading: boolean = true;
 
   constructor(private router: Router, private olympicService: OlympicService, private route: ActivatedRoute) {
+  }
+
+  public ngAfterViewChecked(): void {
+    if(this.results.length > 0) {
+      this.isLoading = false;
+    }
   }
 
   /**
