@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription, partition } from 'rxjs';
 import { DetailChartComponent } from './detail-chart/detail-chart.component';
 
 /**
@@ -16,9 +16,12 @@ import { DetailChartComponent } from './detail-chart/detail-chart.component';
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.scss'
 })
-export class DetailComponent {
+export class DetailComponent implements OnInit, OnDestroy {
 
   public countryDetails$!: Observable<Olympic>;
+
+  //////// Ajout pour unsubscribe
+  public subscription!: Subscription;
 
   // Data
   public countryName!: string;
@@ -39,13 +42,14 @@ export class DetailComponent {
 
     this.countryDetails$ = this.olympicService.getOlympicByCountryName(this.countryName);
 
-    this.countryDetails$.subscribe(value => {
+    this.subscription = this.countryDetails$.subscribe(value => {
       this.numberOfEntries = this.calculateNumberOfEntries(value);
       this.totalNumberOfMedals = this.calculateTotalNumberOfMedals(value);
       this.totalNumberOfAthletes = this.calculateTotalNumberOfAthletes(value);
     });
 
   }
+
 
   /**
    * Calculates and returns the number of entries, given an Olympic
@@ -58,12 +62,11 @@ export class DetailComponent {
     if (value.participations == null) {
       return -1;
     }
-    let entries = new Set<string>();
 
-    for (let i = 0; i < value.participations.length; i++) {
-      entries.add(value.participations[i].city);
-    }
-    return entries.size;
+    let entries = (value.participations)
+    .map(participation => participation.city);
+
+    return new Set(entries).size;
   }
 
   /**
@@ -77,11 +80,12 @@ export class DetailComponent {
     if (value.participations == null) {
       return -1;
     }
-    let numberOfMedals = 0;
 
-    for (let i = 0; i < value.participations.length; i++) {
-      numberOfMedals += value.participations[i].medalsCount;
-    }
+    // Voir si OK : ou possible de faire directement à partir de l'Observable ? 
+    let numberOfMedals = (value.participations)
+      .map(participation => participation.medalsCount)
+      .reduce((acc, medalsCount) => acc + medalsCount);
+
     return numberOfMedals;
   }
 
@@ -96,11 +100,11 @@ export class DetailComponent {
     if (value.participations == null) {
       return -1;
     }
-    let numberOfAthletes = 0;
 
-    for (let i = 0; i < value.participations.length; i++) {
-      numberOfAthletes += value.participations[i].athleteCount;
-    }
+    let numberOfAthletes = (value.participations)
+      .map(partition => partition.athleteCount)
+      .reduce((acc, athleteCount) => acc + athleteCount);
+
     return numberOfAthletes;
   }
 
@@ -111,5 +115,9 @@ export class DetailComponent {
 
     this.router.navigateByUrl('');
 
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

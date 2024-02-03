@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
@@ -15,12 +15,15 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
   templateUrl: './detail-chart.component.html',
   styleUrl: './detail-chart.component.scss'
 })
-export class DetailChartComponent implements OnInit {
+export class DetailChartComponent implements OnInit, OnDestroy {
 
   // Data
   public dataDetailChart!: {name: number; value: number;}[];
   public olympic$!: Observable<Olympic>;
   public countryName!: string;
+
+  //////// Ajout pour unsubscribe
+  public subscription!: Subscription;
 
   // Graph options  
   public view: [number, number] = [700, 400];
@@ -43,11 +46,10 @@ export class DetailChartComponent implements OnInit {
   public ngOnInit(): void {
 
     this.countryName = this.route.snapshot.params['country'];
-    console.log(this.countryName);
 
     this.olympic$ = this.olympicService.getOlympicByCountryName(this.countryName);
 
-    this.olympic$.subscribe(value => this.transformData(value));
+    this.subscription = this.olympic$.subscribe(value => this.transformData(value));
   }
 
   /**
@@ -67,7 +69,11 @@ export class DetailChartComponent implements OnInit {
 
     }
 
-    console.log(dataDetailChartTemp);
     this.dataDetailChart = dataDetailChartTemp;
   }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
 }

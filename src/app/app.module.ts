@@ -16,8 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
  * Root module of the app
  */
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NotFoundComponent ], 
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, DashboardChartComponent, 
+  declarations: [AppComponent], 
+  imports: [HomeComponent, NotFoundComponent, BrowserModule, AppRoutingModule, HttpClientModule, DashboardChartComponent, 
     BrowserModule, DetailComponent, DetailChartComponent, BrowserAnimationsModule ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,20 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, of, Subscription } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
+import { DashboardChartComponent } from './dashboard-chart/dashboard-chart.component';
 
 /**
  * HomeComponent, corresponding to home page of the app
  */
 @Component({
   selector: 'app-home',
+  standalone: true,
+  imports: [DashboardChartComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   // Data
   public olympics$: Observable<Olympic[]> = of([]);
+
+  //////// Ajout pour unsubscribe
+  public subscription!: Subscription;
 
   public numberOfJOs: number = 0;
   public numberOfCountries: number = 0;
@@ -23,17 +29,21 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * Gets data that must be displayed on the page
+   * Gets data that must be displayed on the page 
    */
   public ngOnInit(): void {
 
     this.olympics$ = this.olympicService.getOlympics();
 
-    this.olympics$.subscribe(value => {
+    this.subscription = this.olympics$.subscribe(value => {
       this.numberOfCountries = value.length;
       this.numberOfJOs = this.calculateNumberOfJOs(value);
     });
 
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   /**
@@ -70,20 +80,9 @@ export class HomeComponent implements OnInit {
 
     //////// Version map ////////
 
-    // renvoie un tab[][]
-    /* let tab = value.map((olympic) => olympic.participations.map((participation) => participation.city));
-    console.log(tab); */
+    let jos = value.flatMap(olympic => olympic.participations).map(participation => participation.city);
 
-    let tab: string[] = [];
-
-    value.map((olympic) => 
-      olympic.participations.map(
-        (participation) => 
-        tab.push(participation.city)));
-
-    return new Set(tab).size;
-
-    // dans ce cas pourquoi pas un set direct ? 
+    return new Set(jos).size;
 
   }
 

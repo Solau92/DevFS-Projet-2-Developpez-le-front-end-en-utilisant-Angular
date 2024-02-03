@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { LegendPosition, NgxChartsModule } from '@swimlane/ngx-charts';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Olympic } from 'src/app/core/models/Olympic';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 export class Toto {
@@ -20,11 +20,16 @@ export class Toto {
   templateUrl: './dashboard-chart.component.html',
   styleUrl: './dashboard-chart.component.scss'
 })
-export class DashboardChartComponent {
+export class DashboardChartComponent implements OnInit, OnDestroy {
 
   // Data 
   public dataDashboard: {name: string; value: number;}[] = [];
   public olympics$!: Observable<Olympic[]>;
+
+  //////// Ajout pour unsubscribe
+  public subscription!: Subscription;
+
+  // @Input() olympicsF$!: Observable<Olympic[]>;
 
   // Graph options 
   public showLegend: boolean = false;
@@ -41,8 +46,12 @@ export class DashboardChartComponent {
   public ngOnInit(): void {
 
     this.olympics$ = this.olympicService.getOlympics();
-    this.olympics$.subscribe(value => this.transformData(value));
+    this.subscription = this.olympics$.subscribe(value => this.transformData(value));
 
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   /**

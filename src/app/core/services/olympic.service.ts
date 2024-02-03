@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
 
@@ -10,11 +10,14 @@ import { Olympic } from '../models/Olympic';
 @Injectable({
   providedIn: 'root',
 })
-export class OlympicService {
+export class OlympicService implements OnDestroy {
 
   private olympicUrl = './assets/mock/olympic.json';
   private olympics$ = new BehaviorSubject<Olympic[]>([])
   private olympicByName$ = new BehaviorSubject<Olympic>(new Olympic())
+
+  //////// Ajout pour unsubscribe
+  public subscription!: Subscription;
 
   constructor(private http: HttpClient) {
   }
@@ -60,7 +63,7 @@ export class OlympicService {
   public getOlympicByCountryName(countryName: string): Observable<Olympic> {
 
     // TODO: gérer erreurs ?
-    this.olympics$.subscribe(
+    this.subscription = this.olympics$.subscribe(
       olympics => {
         for (let olympic of olympics) {
           if (olympic.country === countryName) {
@@ -70,5 +73,9 @@ export class OlympicService {
       }
     )
     return this.olympicByName$.asObservable();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
