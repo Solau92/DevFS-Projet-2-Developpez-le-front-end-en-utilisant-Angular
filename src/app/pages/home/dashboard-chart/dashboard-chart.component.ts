@@ -38,12 +38,6 @@ export class DashboardChartComponent implements OnInit {
   public ngOnInit(): void {
   }
 
-  // public onResize(event: any) { 
-  //   this.view = [event.target.innerWidth - 100, 300]; 
-  // }
-  // <!-- [view]="view" -->
-  // <!-- (window:resize)="onResize($event)" -->
-
   /**
    * Sets the tooltipText by returning an html tag corresponding to the tooltip text
    * @param tooltipText: any TODO: voir 

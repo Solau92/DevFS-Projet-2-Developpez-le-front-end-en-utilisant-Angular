@@ -1,29 +1,40 @@
-# OlympicGamesStarter
+# OlympicGamesApp for TéléSport
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+In this application, users can see various figures about Olympic Games, for example : the number of medals per country, or the number of medals for a country at an Olympic Games session. 
 
-Don't forget to install your node_modules before starting (`npm install`).
+# Getting started
 
-## Development server
+## Technology
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+This project uses [Angular](https://angular.io/) version 17.1.0.
 
-## Build
+## Installing
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+You have to import the project from this repository. 
 
-## Where to start
+Then, install the node_module by running the command : `npm install`.
 
-As you can see, an architecture has already been defined for the project. It is just a suggestion, you can choose to use your own. The predefined architecture includes (in addition to the default angular architecture) the following:
+## Reference Documentation
 
-- `components` folder: contains every reusable components
-- `pages` folder: contains components used for routing
+- [Angular documentation](https://angular.io/docs)
+- [Npm documentation](https://docs.npmjs.com/)
+- [Node JS documentation](https://nodejs.org/docs/latest/api/)
+
+# Running the app
+
+Run the `ng serve` command.
+
+And navigate to http://localhost:4200.
+
+# About the project 
+
+The architecture includes (in addition to the default angular architecture) the following :
+
+- `pages` folder: contains components
 - `core` folder: contains the business logic (`services` and `models` folders)
 
-I suggest you to start by understanding this starter code. Pay an extra attention to the `app-routing.module.ts` and the `olympic.service.ts`.
+Data are inside the `olympic.json` file. 
 
-Once mastered, you should continue by creating the typescript interfaces inside the `models` folder. As you can see I already created two files corresponding to the data included inside the `olympic.json`. With your interfaces, improve the code by replacing every `any` by the corresponding interface.
+# Version
 
-You're now ready to implement the requested features.
-
-Good luck!
+1.0.0

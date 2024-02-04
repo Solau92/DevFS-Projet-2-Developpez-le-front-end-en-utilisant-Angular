@@ -60,7 +60,7 @@ export class OlympicService implements OnDestroy {
    * @returns Observable<Olympic>
    * @error TODO:
    */
-  public getOlympicByCountryName(countryName: string): Observable<Olympic> {
+  public getOlympicByCountryName(countryName: string): Observable<Olympic | undefined> {
 
     // TODO: gérer erreurs ?
     this.subscription = this.olympics$.subscribe(
@@ -71,8 +71,9 @@ export class OlympicService implements OnDestroy {
           }
         }
       }
-    )
-    return this.olympicByName$.asObservable();
+    )    
+    return this.olympicByName$.asObservable(); 
+    // throw new Error("error");
   }
 
   ngOnDestroy(): void {
