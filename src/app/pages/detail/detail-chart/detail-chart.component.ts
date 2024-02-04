@@ -24,7 +24,6 @@ export class DetailChartComponent implements OnInit {
   public subscription!: Subscription;
 
   // Graph options  
-  public view: [number, number] = [700, 400];
   public showXAxis = true;
   public showYAxis = true;
   public gradient = false;

@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 export class DashboardChartComponent implements OnInit {
 
   // Data 
-  @Input() public dataDashboard!: {name: string; value: number;}[];
+  @Input() public dataDashboard!: { name: string; value: number; }[];
 
   //////// Ajout pour unsubscribe
   public subscription!: Subscription;
@@ -36,8 +36,13 @@ export class DashboardChartComponent implements OnInit {
    * Gets data needed for the graph
    */
   public ngOnInit(): void {
-
   }
+
+  // public onResize(event: any) { 
+  //   this.view = [event.target.innerWidth - 100, 300]; 
+  // }
+  // <!-- [view]="view" -->
+  // <!-- (window:resize)="onResize($event)" -->
 
   /**
    * Sets the tooltipText by returning an html tag corresponding to the tooltip text
@@ -51,7 +56,7 @@ export class DashboardChartComponent implements OnInit {
     // console.log(tooltipText);
 
     return "<span> <span class=\"tooltip-label\">" + tooltipText.data.name + "</span> <span class=\"tooltip-val\">" + " 🎖" + tooltipText.value + "</span></span>";
-    
+
   }
 
   /**
@@ -59,12 +64,12 @@ export class DashboardChartComponent implements OnInit {
    */
 
   //TODO : vérifier que suppression de any est ok
-  public onSelect(data: {name: string; value: number; label: string}): void {
+  public onSelect(data: { name: string; value: number; label: string }): void {
 
     // console.log(data);
-    
+
     this.router.navigateByUrl(`detail/${data.name}`);
- 
+
   }
 
 }

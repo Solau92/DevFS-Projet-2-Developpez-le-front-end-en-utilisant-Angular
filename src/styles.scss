@@ -1,4 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
 body {
   font-family: "Verdana";
   display: flex;
@@ -37,12 +36,33 @@ a {
   align-items: center;
 }
 
+@media screen and (max-width: 480px) {
+  .stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
 .graph {
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 100%;
   justify-content: center;
+}
+
+@media screen and (max-width: 480px) {
+  #my-pie-chart {
+    display: grid;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #my-bar-chart {
+    display: grid;
+  }
 }
 
 h1 {
@@ -56,6 +76,13 @@ h1 {
   background-color: rgb(4 131 143);
 }
 
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: large;
+    border-width: 10px;
+  }
+}
+
 h2 {
   font-weight: normal;
   color: grey;
@@ -65,6 +92,14 @@ h2 {
   border-radius: 10px;
   padding: 20px;
   margin: 10px;
+}
+
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: medium;
+    padding: 5px !important;
+    margin: 5px !important;
+  }
 }
 
 h2 p {
@@ -83,7 +118,7 @@ h2>.data {
 }
 
 .pie-label {
-  font-size: 20px !important;
+  font-size: 18px !important;
 }
 
 .ngx-charts-tooltip-content {
@@ -130,7 +165,7 @@ h2>.data {
 
 .smallLoader {
   border: 5px solid #f3f3f3;
-  border-top: 5px solid black; 
+  border-top: 5px solid black;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -138,10 +173,12 @@ h2>.data {
 }
 
 .loader {
-  border: 16px solid #f3f3f3; 
+  border: 16px solid #f3f3f3;
   border-top: 16px solid rgb(173, 205, 237);
-  border-bottom: 16px solid rgb(168, 56, 93);;
-  border-right: 16px solid rgb(122, 163, 229);;
+  border-bottom: 16px solid rgb(168, 56, 93);
+  ;
+  border-right: 16px solid rgb(122, 163, 229);
+  ;
   border-radius: 50%;
   width: 120px;
   height: 120px;
@@ -149,6 +186,11 @@ h2>.data {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

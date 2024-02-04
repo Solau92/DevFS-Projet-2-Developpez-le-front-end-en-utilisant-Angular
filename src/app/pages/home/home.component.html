@@ -13,19 +13,26 @@
         <div class="stats">
 
             <h2>
-                <p>Numbers of JOs</p>
+
                 @if(isLoading) {
-                <div class="smallLoader"></div>
+                <div class="smallLoader">.</div>
                 } @else {
+                <p>Numbers of JOs</p>
                 <p class="data">{{ numberOfJOs }}</p>
                 }
+                <!-- <p>Numbers of JOs</p>
+                @if(isLoading) {
+                <div class="smallLoader">.</div>
+                } @else {
+                <p class="data">{{ numberOfJOs }}</p>
+                } -->
             </h2>
 
             <h2>
-                <p>Numbers of countries</p>
                 @if(isLoading) {
-                <div class="smallLoader"></div>
+                <div class="smallLoader">.</div>
                 } @else {
+                <p>Numbers of countries</p>
                 <p class="data">{{ numberOfCountries }}</p>
                 }
             </h2>
