@@ -20,7 +20,6 @@ export class DetailChartComponent implements OnInit {
   // Data
   @Input() public dataDetailChart!: { name: number; value: number; }[];
 
-  //////// Ajout pour unsubscribe
   public subscription!: Subscription;
 
   // Graph options  
@@ -39,6 +38,7 @@ export class DetailChartComponent implements OnInit {
 
   /**
    * Gets data needed for the graph
+   * A supprimer 
    */
   public ngOnInit(): void {
 

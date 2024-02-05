@@ -18,10 +18,8 @@ import { DetailChartComponent } from './detail-chart/detail-chart.component';
 })
 export class DetailComponent implements OnInit, OnDestroy {
 
-  public countryDetails$!: Observable<Olympic | undefined>;
   public results!: { name: number; value: number; }[];
 
-  //////// Ajout pour unsubscribe
   public subscription!: Subscription;
 
   // Data
@@ -31,6 +29,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   public totalNumberOfMedals: number = -1;
   public totalNumberOfAthletes: number = -1;
 
+  // Condition of loading
   public isLoading: boolean = true;
 
   constructor(private router: Router, private olympicService: OlympicService, private route: ActivatedRoute) {
@@ -44,53 +43,27 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   /**
    * Gets data that must be displayed on the page
+   * Raises error if country not found, and redirects to error page 
    */
   public ngOnInit(): void {
 
     this.countryName = this.route.snapshot.params['country'];
 
-    // try {
-    //   this.countryDetails$ = this.olympicService.getOlympicByCountryName(this.countryName);
+    let countryDetails$: Observable<Olympic> = this.olympicService.getOlympicByCountryName(this.countryName);
 
-    //   this.subscription = this.countryDetails$.subscribe(value => {
-    //     console.log("else");
-    //     this.numberOfEntries = this.calculateNumberOfEntries(value);
-    //     this.totalNumberOfMedals = this.calculateTotalNumberOfMedals(value);
-    //     this.totalNumberOfAthletes = this.calculateTotalNumberOfAthletes(value);
-    //     this.results = this.transformData(value);
-    //   });
-
-    // } catch (e) {
-    //   console.log("error");
-    //     this.isLoading = false;
-    //     this.results.length === -1;
-    //     console.log(this.isLoading);
-    //     this.router.navigateByUrl('***');
-    // }
-
-
-    this.countryDetails$ = this.olympicService.getOlympicByCountryName(this.countryName);
-
-    this.subscription = this.countryDetails$.subscribe(value => {
-      if (value === undefined) {
+    this.subscription = countryDetails$.subscribe({
+      next: (value) => {
+        this.numberOfEntries = this.calculateNumberOfEntries(value);
+        this.totalNumberOfMedals = this.calculateTotalNumberOfMedals(value);
+        this.totalNumberOfAthletes = this.calculateTotalNumberOfAthletes(value);
+        this.results = this.transformData(value);
+      },
+      error: (error) => {
         this.isLoading = false;
         this.router.navigate(['/not-found']);
-      } else {
-        this.countryDetails$.subscribe(value => {
-          this.numberOfEntries = this.calculateNumberOfEntries(value);
-          this.totalNumberOfMedals = this.calculateTotalNumberOfMedals(value);
-          this.totalNumberOfAthletes = this.calculateTotalNumberOfAthletes(value);
-          this.results = this.transformData(value);
-        });
       }
     });
 
-    // this.subscription = this.countryDetails$.subscribe(value => {
-    //   this.numberOfEntries = this.calculateNumberOfEntries(value);
-    //   this.totalNumberOfMedals = this.calculateTotalNumberOfMedals(value);
-    //   this.totalNumberOfAthletes = this.calculateTotalNumberOfAthletes(value);
-    //   this.results = this.transformData(value);
-    // });
   }
 
   /**
@@ -98,23 +71,15 @@ export class DetailComponent implements OnInit, OnDestroy {
    * @param value: Olympic
    * @returns number
    */
-  public calculateNumberOfEntries(value: Olympic | undefined): number {
+  public calculateNumberOfEntries(value: Olympic): number {
 
-    // TODO: Gérer erreurs
-    // if (value.participations == null) {
-    //   return -1;
-    // }
-
-    if (value === undefined) {
+    if (value.participations == null) {
       return -1;
-    } else {
-      let entries = (value.participations)
-        .map(participation => participation.city);
-      return new Set(entries).size;
     }
 
-
-
+    let entries = (value.participations)
+      .map(participation => participation.city);
+    return new Set(entries).size;
   }
 
   /**
@@ -122,29 +87,17 @@ export class DetailComponent implements OnInit, OnDestroy {
    * @param value: Olympic 
    * @returns number
    */
-  public calculateTotalNumberOfMedals(value: Olympic | undefined): number {
+  public calculateTotalNumberOfMedals(value: Olympic): number {
 
-    // // TODO: Gérer erreurs
-    // if (value.participations == null) {
-    //   return -1;
-    // }
-
-    // // Voir si OK : ou possible de faire directement à partir de l'Observable ? 
-    // let numberOfMedals = (value.participations)
-    //   .map(participation => participation.medalsCount)
-    //   .reduce((acc, medalsCount) => acc + medalsCount);
-
-    // return numberOfMedals;
-
-    if (value === undefined) {
+    if (value.participations == null) {
       return -1;
-    } else {
-      let numberOfMedals = (value.participations)
-        .map(participation => participation.medalsCount)
-        .reduce((acc, medalsCount) => acc + medalsCount);
-
-      return numberOfMedals;
     }
+
+    let numberOfMedals = (value.participations)
+      .map(participation => participation.medalsCount)
+      .reduce((acc, medalsCount) => acc + medalsCount);
+
+    return numberOfMedals;
 
   }
 
@@ -153,28 +106,18 @@ export class DetailComponent implements OnInit, OnDestroy {
    * @param value: Olympic  
    * @returns number
    */
-  public calculateTotalNumberOfAthletes(value: Olympic | undefined): number {
+  public calculateTotalNumberOfAthletes(value: Olympic): number {
 
-    // // TODO: Gérer erreurs
-    // if (value.participations == null) {
-    //   return -1;
-    // }
-
-    // let numberOfAthletes = (value.participations)
-    //   .map(partition => partition.athleteCount)
-    //   .reduce((acc, athleteCount) => acc + athleteCount);
-
-    // return numberOfAthletes;
-
-    if (value === undefined) {
+    if (value.participations == null) {
       return -1;
-    } else {
-      let numberOfAthletes = (value.participations)
-        .map(partition => partition.athleteCount)
-        .reduce((acc, athleteCount) => acc + athleteCount);
-
-      return numberOfAthletes;
     }
+
+    let numberOfAthletes = (value.participations)
+      .map(partition => partition.athleteCount)
+      .reduce((acc, athleteCount) => acc + athleteCount);
+
+    return numberOfAthletes;
+  
   }
 
   /**
@@ -186,38 +129,30 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   }
 
-
-  public transformData(data: Olympic | undefined): { name: number; value: number; }[] {
-
-    // let dataDetailChartTemp: {
-    //   name: number;
-    //   value: number;
-    // }[] = [];
-
-    // data.participations.map(participation => {
-    //   dataDetailChartTemp.push({ name: participation.year, value: participation.medalsCount });
-    // });
-
-    // return dataDetailChartTemp;
+  /**
+   * Transforms data to be used by the graphic
+   * @param olympic 
+   * @returns an empty array if there is no participation
+   * @returns an array containing data 
+   */
+  public transformData(olympic: Olympic): { name: number; value: number; }[] {
 
     let dataDetailChartTemp: {
       name: number;
       value: number;
     }[] = [];
 
-    if (data === undefined) {
+    if (olympic.participations === undefined) {
       return [];
-    } else {
 
-      data.participations.map(participation => {
+    } else {
+      olympic.participations.map(participation => {
         dataDetailChartTemp.push({ name: participation.year, value: participation.medalsCount });
       });
 
       return dataDetailChartTemp;
     }
   }
-
-
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();

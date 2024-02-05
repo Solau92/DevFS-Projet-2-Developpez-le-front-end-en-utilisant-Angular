@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 /**
  * NotFoundComponent, corresponding to error page
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-not-found',
   standalone: true,
+  imports: [RouterModule],
   templateUrl: './not-found.component.html',
   styleUrls: ['./not-found.component.scss']
 })

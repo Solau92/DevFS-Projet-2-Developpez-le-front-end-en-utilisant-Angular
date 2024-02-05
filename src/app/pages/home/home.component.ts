@@ -77,18 +77,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
         return jos.size; */
 
-    //////// Version intermédiaire ////////
-
-    /*   let tab: string[] = [];
-    
-        value.forEach((olympic) => 
-          olympic.participations.forEach((participation) => {
-            tab.push(participation.city);
-          }))
-    
-        return new Set(tab).size;
-      } */
-
     //////// Version map ////////
 
     let jos = value.flatMap(olympic => olympic.participations).map(participation => participation.city);

@@ -34,6 +34,7 @@ export class DashboardChartComponent implements OnInit {
 
   /**
    * Gets data needed for the graph
+   * A supprimer 
    */
   public ngOnInit(): void {
   }

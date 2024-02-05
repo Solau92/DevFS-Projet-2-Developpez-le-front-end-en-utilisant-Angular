@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Observable, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
 
@@ -13,10 +13,8 @@ import { Olympic } from '../models/Olympic';
 export class OlympicService implements OnDestroy {
 
   private olympicUrl = './assets/mock/olympic.json';
-  private olympics$ = new BehaviorSubject<Olympic[]>([])
-  private olympicByName$ = new BehaviorSubject<Olympic>(new Olympic())
+  private olympics$ = new BehaviorSubject<Olympic[]>([]);
 
-  //////// Ajout pour unsubscribe
   public subscription!: Subscription;
 
   constructor(private http: HttpClient) {
@@ -57,23 +55,33 @@ export class OlympicService implements OnDestroy {
   /**
    * Returns the Olympic as Observable, given the countryName
    * @param countryName: string
+   * @return nothing if data not yet loaded
    * @returns Observable<Olympic>
-   * @error TODO:
+   * @error if Olympic not found 
    */
-  public getOlympicByCountryName(countryName: string): Observable<Olympic | undefined> {
+  public getOlympicByCountryName(countryName: string): Observable<Olympic> {
 
-    // TODO: gérer erreurs ?
+    let olympicByName$ = new BehaviorSubject<Olympic>(new Olympic());
+
     this.subscription = this.olympics$.subscribe(
       olympics => {
+        if (olympics.length == 0) {
+          // Initial data has not been loaded yet
+          return;
+        }
+        let found: boolean = false;
         for (let olympic of olympics) {
           if (olympic.country === countryName) {
-            this.olympicByName$.next(olympic)
+            olympicByName$.next(olympic)
+            found = true;
           }
+        }
+        if (!found) {
+          olympicByName$.error(new Error('Country not found'));
         }
       }
     )    
-    return this.olympicByName$.asObservable(); 
-    // throw new Error("error");
+    return olympicByName$.asObservable(); 
   }
 
   ngOnDestroy(): void {
