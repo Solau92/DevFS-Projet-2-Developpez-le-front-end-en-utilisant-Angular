@@ -32,9 +32,8 @@ export class OlympicService implements OnDestroy {
       catchError((error, caught) => {
         // TODO: improve error handling
         console.error(error);
-        // can be useful to end loading state and let the user know something went wrong
-        // Ne fonctionne plus avec les modifications du code, à voir : 
-        // this.olympics$.next(null);
+        // can be useful to end loading state and let the user know something went wrong 
+        this.olympics$.next(new Array<Olympic>);
         return caught;
       })
     );
@@ -70,6 +69,8 @@ export class OlympicService implements OnDestroy {
           return;
         }
         let found: boolean = false;
+
+        // mettre map à la place  
         for (let olympic of olympics) {
           if (olympic.country === countryName) {
             olympicByName$.next(olympic)

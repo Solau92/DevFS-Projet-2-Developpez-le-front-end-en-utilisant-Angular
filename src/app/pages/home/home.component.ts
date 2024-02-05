@@ -1,5 +1,5 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of, partition, Subscription } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { DashboardChartComponent } from './dashboard-chart/dashboard-chart.component';
@@ -10,7 +10,7 @@ import { DashboardChartComponent } from './dashboard-chart/dashboard-chart.compo
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [DashboardChartComponent ],
+  imports: [DashboardChartComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public ngAfterViewChecked(): void {
-    if(this.results.length > 0) {
+    if (this.results.length > 0) {
       this.isLoading = false;
     }
   }
@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.numberOfCountries = value.length;
       this.numberOfJOs = this.calculateNumberOfJOs(value);
       this.results = this.transformData(value);
-      
+
     });
 
   }
@@ -79,8 +79,15 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     //////// Version map ////////
 
-    let jos = value.flatMap(olympic => olympic.participations).map(participation => participation.city);
+    // let jos = value.
+    //   flatMap(olympic =>
+    //     olympic.participations).filter((participation, indexy, participations) => participations.indexOf(participation) === indexy)
 
+    let jos = value.flatMap(olympic => 
+      olympic.participations).map(participation => 
+        participation.city);
+
+    // return jos.length;
     return new Set(jos).size;
 
   }
