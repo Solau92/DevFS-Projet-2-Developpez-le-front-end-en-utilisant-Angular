@@ -15,6 +15,9 @@ export class AppComponent implements OnInit {
   constructor(private olympicService: OlympicService) {
   }
 
+  /**
+   * Loads initial data when the app is launched
+   */
   public ngOnInit(): void {
 
     this.olympicService.loadInitialData().pipe(take(1)).subscribe();

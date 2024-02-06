@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 /**
@@ -11,12 +11,9 @@ import { RouterModule } from '@angular/router';
   templateUrl: './not-found.component.html',
   styleUrls: ['./not-found.component.scss']
 })
-export class NotFoundComponent implements OnInit {
+export class NotFoundComponent {
 
   constructor() {
-  }
-
-  public ngOnInit(): void {
   }
 
 }

@@ -18,23 +18,26 @@ import { DetailChartComponent } from './detail-chart/detail-chart.component';
 })
 export class DetailComponent implements OnInit, OnDestroy {
 
-  public results!: { name: number; value: number; }[];
-
-  public subscription!: Subscription;
-
   // Data
   public countryName!: string;
-
   public numberOfEntries: number = -1;
   public totalNumberOfMedals: number = -1;
   public totalNumberOfAthletes: number = -1;
 
+  // Data in a form that can be used by the graphic
+  public results!: { name: number; value: number; }[];
+
   // Condition of loading
   public isLoading: boolean = true;
+
+  public subscription!: Subscription;
 
   constructor(private router: Router, private olympicService: OlympicService, private route: ActivatedRoute) {
   }
 
+  /**
+   * If data loaded, change loading state to false 
+   */
   public ngAfterViewChecked(): void {
     if (this.results.length > 0) {
       this.isLoading = false;
@@ -98,7 +101,6 @@ export class DetailComponent implements OnInit, OnDestroy {
       .reduce((acc, medalsCount) => acc + medalsCount);
 
     return numberOfMedals;
-
   }
 
   /**
@@ -117,23 +119,21 @@ export class DetailComponent implements OnInit, OnDestroy {
       .reduce((acc, athleteCount) => acc + athleteCount);
 
     return numberOfAthletes;
-  
   }
 
   /**
-   * Defines the action onClick of the button
+   * Defines the action onClick of the button : the user must be redirected
+   * to home page 
    */
   public onClick(): void {
-
     this.router.navigateByUrl('');
-
   }
 
   /**
    * Transforms data to be used by the graphic
    * @param olympic 
    * @returns an empty array if there is no participation
-   * @returns an array containing data 
+   * @returns { name: number; value: number; }[] : an array containing data 
    */
   public transformData(olympic: Olympic): { name: number; value: number; }[] {
 

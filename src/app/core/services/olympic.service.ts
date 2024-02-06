@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subject, Observable, Subscription } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap, map, filter, catchError } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
 
 /**
@@ -10,12 +10,10 @@ import { Olympic } from '../models/Olympic';
 @Injectable({
   providedIn: 'root',
 })
-export class OlympicService implements OnDestroy {
+export class OlympicService {
 
   private olympicUrl = './assets/mock/olympic.json';
   private olympics$ = new BehaviorSubject<Olympic[]>([]);
-
-  public subscription!: Subscription;
 
   constructor(private http: HttpClient) {
   }
@@ -23,16 +21,14 @@ export class OlympicService implements OnDestroy {
   /**
    * Loads initial data from data source
    * @returns Observable<Olympic[]>
-   * @error TODO: 
+   * @error if error when getting data  
    */
   public loadInitialData(): Observable<Olympic[]> {
 
     return this.http.get<Olympic[]>(this.olympicUrl).pipe(
       tap((value) => this.olympics$.next(value)),
       catchError((error, caught) => {
-        // TODO: improve error handling
         console.error(error);
-        // can be useful to end loading state and let the user know something went wrong 
         this.olympics$.next(new Array<Olympic>);
         return caught;
       })
@@ -41,51 +37,39 @@ export class OlympicService implements OnDestroy {
 
   /**
    * Returns the data as Observable
-   * @returns Observable<Olympic[]>
-   * @error TODO:
+   * @returns Observable<Olympic[]> (takes only the first Olympic if serveral Olympics represent the same country)
    */
   public getOlympics(): Observable<Olympic[]> {
 
-    // TODO: gérer erreurs ?
-    return this.olympics$.asObservable();
-
+    return this.olympics$.asObservable().pipe(
+      map(olympics => {
+        return olympics.filter((item, index) => olympics.findIndex(o => o.country === item.country) === index);
+      })
+    );
+    
   }
 
   /**
    * Returns the Olympic as Observable, given the countryName
    * @param countryName: string
-   * @return nothing if data not yet loaded
    * @returns Observable<Olympic>
    * @error if Olympic not found 
    */
   public getOlympicByCountryName(countryName: string): Observable<Olympic> {
 
-    let olympicByName$ = new BehaviorSubject<Olympic>(new Olympic());
+    return this.olympics$.pipe(
+      filter(olympics => olympics.length > 0),
+      map(olympics => {
+        let olympic = olympics.find(olympic => olympic.country === countryName)
 
-    this.subscription = this.olympics$.subscribe(
-      olympics => {
-        if (olympics.length == 0) {
-          // Initial data has not been loaded yet
-          return;
+        if(olympic === undefined) {
+          throw new Error("Country not found");
         }
-        let found: boolean = false;
-
-        // mettre map à la place  
-        for (let olympic of olympics) {
-          if (olympic.country === countryName) {
-            olympicByName$.next(olympic)
-            found = true;
-          }
-        }
-        if (!found) {
-          olympicByName$.error(new Error('Country not found'));
-        }
+        
+        return olympic;        
       }
-    )    
-    return olympicByName$.asObservable(); 
+    ));
+
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
 }

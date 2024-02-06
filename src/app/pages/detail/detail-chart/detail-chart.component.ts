@@ -1,9 +1,5 @@
-import { Component, OnDestroy, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { Observable, Subscription } from 'rxjs';
-import { Olympic } from 'src/app/core/models/Olympic';
-import { OlympicService } from 'src/app/core/services/olympic.service';
 
 /**
  * DetailChart component, linked to DetailComponent
@@ -15,12 +11,10 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
   templateUrl: './detail-chart.component.html',
   styleUrl: './detail-chart.component.scss'
 })
-export class DetailChartComponent implements OnInit {
+export class DetailChartComponent {
 
-  // Data
+  // Data from DetailComponent
   @Input() public dataDetailChart!: { name: number; value: number; }[];
-
-  public subscription!: Subscription;
 
   // Graph options  
   public showXAxis = true;
@@ -32,16 +26,5 @@ export class DetailChartComponent implements OnInit {
   public showYAxisLabel = true;
   public yAxisLabel = "Nb of medals";
   public barPadding = 40;
-
-  constructor(private route: ActivatedRoute) {
-  }
-
-  /**
-   * Gets data needed for the graph
-   * A supprimer 
-   */
-  public ngOnInit(): void {
-
-  }
 
 }

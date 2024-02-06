@@ -1,5 +1,5 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, of, partition, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { DashboardChartComponent } from './dashboard-chart/dashboard-chart.component';
@@ -18,19 +18,23 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   // Data
   public olympics$: Observable<Olympic[]> = of([]);
-  public results: { name: string; value: number; }[] = [];
-
-  //////// Ajout pour unsubscribe
-  public subscription!: Subscription;
-
   public numberOfJOs: number = -1;
   public numberOfCountries: number = -1;
 
+  // Data in a form that can be used by the graphic
+  public results: { name: string; value: number; }[] = [];
+
+  // Condition of loading
   public isLoading: boolean = true;
+
+  public subscription!: Subscription;
 
   constructor(private olympicService: OlympicService) {
   }
 
+  /**
+   * If data loaded, change loading state to false 
+   */
   public ngAfterViewChecked(): void {
     if (this.results.length > 0) {
       this.isLoading = false;
@@ -48,13 +52,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.numberOfCountries = value.length;
       this.numberOfJOs = this.calculateNumberOfJOs(value);
       this.results = this.transformData(value);
-
     });
 
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   /**
@@ -64,30 +63,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
    */
   public calculateNumberOfJOs(value: Olympic[]): number {
 
-    // TODO: suite mentorat 
-
-    //////// Version initiale ////////
-
-    /*     let jos = new Set<string>();
-    
-        for (let i = 0; i < value.length; i++) {
-          for (let j = 0; j < value[i].participations.length; j++) {
-            jos.add(value[i].participations[j].city);
-          }
-        }
-        return jos.size; */
-
-    //////// Version map ////////
-
-    // let jos = value.
-    //   flatMap(olympic =>
-    //     olympic.participations).filter((participation, indexy, participations) => participations.indexOf(participation) === indexy)
-
-    let jos = value.flatMap(olympic => 
-      olympic.participations).map(participation => 
+    let jos = value.flatMap(olympic =>
+      olympic.participations).map(participation =>
         participation.city);
 
-    // return jos.length;
     return new Set(jos).size;
 
   }
@@ -95,6 +74,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**
   * Transforms data in a format that can be used by the graph
   * @param data: Olympic[] 
+  * @returns { name: string; value: number; }[] : an array containing data 
   */
   public transformData(data: Olympic[]): { name: string; value: number; }[] {
 
@@ -111,6 +91,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     })
 
     return dataDashboard;
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }
