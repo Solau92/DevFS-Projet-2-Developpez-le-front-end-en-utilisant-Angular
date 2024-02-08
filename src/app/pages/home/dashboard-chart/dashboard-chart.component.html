@@ -1,18 +1,13 @@
+<div id="my-pie-chart">
 
-
-<div>
-    <ngx-charts-pie-chart
-        
-        [results]="dataDashboard"
-        [legend]="showLegend"
+    <ngx-charts-pie-chart 
+        [results]="dataDashboard" 
+        [legend]="showLegend" 
         [legendPosition]="legendPosition"
-        [labels]="showLabels"
-        [maxLabelLength]=maxLabelLength
+        [labels]="showLabels" 
+        [maxLabelLength]=maxLabelLength 
         [tooltipText]="setToolTipText"
-        (select)="onSelect($event)"
-        >
-        <!-- [view]="view" -->
-        <!-- [labelFormatting]="setLabelFormatting"> -->
-        
+        (select)="onSelect($event)">
     </ngx-charts-pie-chart>
+
 </div>

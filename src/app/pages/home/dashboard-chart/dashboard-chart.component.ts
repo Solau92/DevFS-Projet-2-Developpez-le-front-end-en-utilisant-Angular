@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
-// Ajouté
+import { Component, Input } from '@angular/core';
 import { LegendPosition, NgxChartsModule } from '@swimlane/ngx-charts';
-//import { dataDashboard } from './dataDashboard';
-import { OlympicService } from 'src/app/core/services/olympic.service';
-import { Olympic } from 'src/app/core/models/Olympic';
-import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 
+/**
+ * DashboardChartComponent, linked to HomePageComponent
+ */
 @Component({
   selector: 'app-dashboard-chart',
   standalone: true,
@@ -16,78 +14,34 @@ import { Router } from '@angular/router';
 })
 export class DashboardChartComponent {
 
-  // Data 
-  public dataDashboard!: any[]; // any ?
-  public olympics$!: Observable<Olympic[]>;
+  // Data from HomeComponent
+  @Input() public dataDashboard!: { name: string; value: number; }[];
 
   // Graph options 
-  // A typer !! 
-  // protected view: [number, number] = [500, 500];
-  protected showLegend: boolean = false;
-  protected showLabels: boolean = true;
-  protected legendPosition = LegendPosition.Below;
-  protected maxLabelLength = 30;
+  public showLegend: boolean = false;
+  public showLabels: boolean = true;
+  public legendPosition = LegendPosition.Below;
+  public maxLabelLength = 30;
 
-  // Ajout injection service : à enlever si autre solution (data from home.component) ? 
-  constructor(private olympicService: OlympicService, private router: Router) {
-    //Object.assign(this, { this: this.dataDashboard2 });
-    //Object.assign(this, { dataDashboard });
+  constructor(private router: Router) {
   }
 
-  // Initialisation variable 
-  ngOnInit(): void {
-    this.olympics$ = this.olympicService.getOlympics();
-    this.olympics$.subscribe(value => this.transformData(value));
-  }
-
-  // Type de retour ? void
-  public transformData(data: Olympic[]) {
-    
-    const dataDashboard2: any[] = [];
-
-    for(let i = 0 ; i < data.length ; i++) {
-
-      let nbOfMedals = 0;
-
-      for(let j = 0 ; j < data[i].participations.length ; j++) {
-        nbOfMedals += data[i].participations[j].medalsCount;
-      }
-      const obj =  { name: data[i].country, value: nbOfMedals};
-      dataDashboard2.push(obj);
-    }
-
-    this.dataDashboard = dataDashboard2;
-  } 
-
-  /* public transformData(data: Olympic[]) {
-
-    for(let i = 0 ; i < data.length ; i++) {
-
-      let nbOfMedals = 0;
-
-      for(let j = 0 ; j < data[i].participations.length ; j++) {
-        nbOfMedals += data[i].participations[j].medalsCount;
-      }
-      const obj =  { name: data[i].country, value: nbOfMedals};
-      this.dataDashboard.push(obj);
-    }
-
-  } */
-
-  /*   public setLabelFormatting(name: string) :string {
-      return ` ${name} `;
-    } */
+  /**
+   * Sets the tooltipText by returning an html tag corresponding to the tooltip text
+   * @param tooltipText 
+   * @returns string
+   */
 
   public setToolTipText(tooltipText: any): string {
     return "<span> <span class=\"tooltip-label\">" + tooltipText.data.name + "</span> <span class=\"tooltip-val\">" + " 🎖" + tooltipText.value + "</span></span>";
-    // return tooltipText.data.name + " 🎖" + tooltipText.value;
   }
 
-  public onSelect(data: any): void {
-    // Data :any ??
-    
+  /**
+   * Defines the action onSelect of the graph : user must be redirected to 
+   * detail page of the selected country
+   */
+  public onSelect(data: { name: string; value: number; label: string }): void {
     this.router.navigateByUrl(`detail/${data.name}`);
- 
   }
 
 }
